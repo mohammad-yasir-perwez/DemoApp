@@ -109,7 +109,7 @@ extension Webservice {
         let (data, _) = try await asyncNetworking(request)
         return try JSONDecoder.jsonDecoder.decode(Model.self, from: data)
     }
-
+    
     
     public func fetch<Model: Decodable>(
         request: Request<Model>

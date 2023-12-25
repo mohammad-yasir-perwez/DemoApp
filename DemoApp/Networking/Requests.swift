@@ -44,14 +44,14 @@ struct Country: Decodable, Equatable, Hashable {
 
 extension RequestBuilder {
 
-  static func getAllCountries() -> Request<[Country]> {
-    Request<[Country]>(
-      data: RequestData(
-        path: "/v3.1/all",
-        queryItems: [],
-        method: .get
-      )
-    )
-  }
+    static func getAllCountries() -> Request<[Country]> {
+        Request<[Country]>(
+            data: RequestData(
+                path: "/v3.1/all",
+                queryItems: [],
+                method: .get
+            )
+        )
+    }
 }
 
