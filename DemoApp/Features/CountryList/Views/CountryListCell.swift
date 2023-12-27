@@ -1,10 +1,3 @@
-//
-//  CountryListCell.swift
-//  DemoApp
-//
-//  Created by Mohammad Yasir Perwez on 25.12.23.
-//
-
 import UIKit
 
 class CountryListCell: UITableViewCell {
@@ -65,13 +58,8 @@ class CountryListCell: UITableViewCell {
 
     private func setupView() {
         self.contentView.addSubview(self.container)
-        [self.nameView, self.capitalView].forEach {
-            infoContainer.addArrangedSubview($0)
-        }
-
-        [self.flagView, self.infoContainer].forEach {
-            container.addArrangedSubview($0)
-        }
+        self.setupContainerStack()
+        self.setupInfoContainerStact()
         self.setupConstraint()
     }
 
@@ -80,6 +68,18 @@ class CountryListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             self.flagView.widthAnchor.constraint(equalToConstant: LocalConstant.flagDimensions).withPriority(.required)
         ])
+    }
+    
+    private func setupContainerStack() {
+        [self.nameView, self.capitalView].forEach {
+            infoContainer.addArrangedSubview($0)
+        }
+    }
+
+    private func setupInfoContainerStact() {
+        [self.flagView, self.infoContainer].forEach {
+            container.addArrangedSubview($0)
+        }
     }
 
     private func updateUI() {
@@ -102,3 +102,25 @@ class CountryListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
+#Preview("Countries1") {
+    return CountryListView(
+        model: CountryListViewModel(
+            presentation: CountryListViewModel.Presentation(
+                title: "Random countries",
+                countryList: []
+            ),
+            clientApi: CountryListViewClientAPIMock(mock: {
+                return [
+                    Country(
+                        name: "Yasir",
+                        population: 100,
+                        capital: ["Perwez"],
+                        flagURL: "https://flagcdn.com/w320/cx.png"
+                    )
+                ]
+            })
+        )
+    )
+    }

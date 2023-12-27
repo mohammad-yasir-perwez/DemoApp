@@ -1,9 +1,3 @@
-//
-//  SceneDelegate.swift
-//  DemoApp
-//
-//  Created by Mohammad Yasir Perwez on 09.12.23.
-//
 
 import UIKit
 

@@ -1,43 +1,23 @@
-//
-//  CountryListView.swift
-//  DemoApp
-//
-//  Created by Mohammad Yasir Perwez on 25.12.23.
-//
-
 import UIKit
+import Combine
 
 class CountryListView: UIView {
     
     private var subscriptions = Set<AnyCancellable>()
-    
-    let viewModel: CountryListViewModel
-    
+    private let viewModel: CountryListViewModel
+
     struct LocalConstant {
-        static let CountrCellIdentifier = "CountryListCell"
-        static let FavCountrCellIdentifier = "FavCountryListCell"
         static let cellHeight = 60.0
     }
     
     enum Section: CaseIterable {
         case country
-        case favoriteCountry
-        
-        var identifier: String {
-            switch self {
-            case .country:
-                return LocalConstant.CountrCellIdentifier
-            case .favoriteCountry:
-                return LocalConstant.FavCountrCellIdentifier
-            }
-        }
+//        case favoriteCountry
     }
     
     private lazy var countryTableView: UITableView = {
         let view = UITableView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.rowHeight = UITableView.automaticDimension
-        view.estimatedRowHeight = UITableView.automaticDimension
         view.register(CountryListCell.self,
                       forCellReuseIdentifier: String(
                         describing: CountryListCell.self
@@ -69,6 +49,7 @@ class CountryListView: UIView {
     ) {
         self.countryTableView.reloadData()
     }
+
     private func bindToModel() {
         let subcription = self.viewModel.$presentation.sink { presentation in
             DispatchQueue.main.async {
@@ -95,6 +76,7 @@ class CountryListView: UIView {
 
 extension CountryListView: UITableViewDataSource,
                            UITableViewDelegate {
+    
     func numberOfSections(in tableView: UITableView) -> Int { 1 }
     
     func tableView(_ tableView: UITableView,

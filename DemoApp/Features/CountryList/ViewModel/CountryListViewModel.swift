@@ -1,9 +1,3 @@
-//
-//  CountryListViewModel.swift
-//  DemoApp
-//
-//  Created by Mohammad Yasir Perwez on 25.12.23.
-//
 
 import Combine
 
@@ -15,24 +9,50 @@ class CountryListViewModel: ObservableObject {
     }
 
     @Published var presentation: Presentation
-    let webservice: Webservice
+    let clientApi: CountryListViewClientAPI
+
 
     init(presentation: Presentation,
-         webservice: Webservice
+         clientApi: CountryListViewClientAPI
     ) {
         self.presentation = presentation
-        self.webservice = webservice
+        self.clientApi = clientApi
     }
     
     func fetchCountry() {
         Task {
             do {
-                self.presentation.countryList = try await webservice.fetch(
-                    request: RequestBuilder.getAllCountries()
-                )
+                self.presentation.countryList = try await clientApi.fetchCountry()
             } catch {
                 print(error)
             }
         }
+    }
+}
+
+protocol CountryListViewClientAPI {
+    func fetchCountry() async throws -> [Country]
+}
+
+
+struct CountryListViewClientAPILive: CountryListViewClientAPI {
+    let webService: Webservice
+    func fetchCountry() async throws -> [Country] {
+        try await webService.fetch(request: RequestBuilder.getAllCountries())
+    }
+}
+
+
+struct CountryListViewClientAPIMock: CountryListViewClientAPI {
+    var mock: () throws -> [Country]
+
+    func fetchCountry() async throws -> [Country] {
+        try await Task {
+            return try mock()
+        }.value
+    }
+
+    init(mock: @escaping () throws -> [Country]) {
+        self.mock = mock
     }
 }

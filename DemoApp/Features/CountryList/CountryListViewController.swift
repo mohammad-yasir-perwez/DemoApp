@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  DemoApp
-//
-//  Created by Mohammad Yasir Perwez on 09.12.23.
-//
-
 import UIKit
 import Combine
 
@@ -18,13 +11,14 @@ class CountryListViewController: UIViewController {
     }
 
     func setupView() {
+
         let countryView = CountryListView(
             model: CountryListViewModel(
                 presentation: CountryListViewModel.Presentation(
                     title: "Random countries",
                     countryList: []
                 ),
-                webservice: webservice
+                clientApi: CountryListViewClientAPILive(webService: webservice)
             )
         )
         countryView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,18 +27,10 @@ class CountryListViewController: UIViewController {
     }
 }
 
-
-/**
  #Preview("Countries") {
  let controllers = CountryListViewController()
  return controllers
  }
 
- #Preview("Countries1") {
- let controllers = CountryListViewController()
- return controllers
- }
-
- */
 
 
