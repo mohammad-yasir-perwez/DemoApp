@@ -36,7 +36,7 @@ protocol CountryListViewClientAPI {
 
 
 struct CountryListViewClientAPILive: CountryListViewClientAPI {
-    let webService: Webservice
+    let webService: WebService
     func fetchCountry() async throws -> [Country] {
         try await webService.fetch(request: RequestBuilder.getAllCountries())
     }

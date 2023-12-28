@@ -75,7 +75,7 @@ typealias AsyncNetworking = (URLRequest) async throws -> (data: Data, response: 
 /// * Request => Request.Model
 /// * Request => URLRequest => Request.Model
 
-struct Webservice {
+struct WebService {
     ///    Dependencies
     let networking: Networking
     let asyncNetworking: AsyncNetworking
@@ -92,7 +92,7 @@ struct Webservice {
     }
 }
 
-extension Webservice {
+extension WebService {
     
     public func fetch<Model: Decodable>(
         request: Request<Model>
@@ -131,7 +131,7 @@ extension Webservice {
     }
 }
 
-extension Webservice {
+extension WebService {
     static let live = Self(
         networking: loggedNetworking(PrintLogger())(URLSession.shared.erasedDataTaskPublisher(for:)),
         asyncNetworking: URLSession.shared.data(for:) ,
